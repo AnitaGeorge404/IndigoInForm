@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
 
-const ContactFormSection = () => {
+const ContactFormSection: React.FC = () => {
   return (
     <section className="relative z-20 -mt-32 md:-mt-48 pb-20 container mx-auto px-6 md:px-12">
       <motion.div 

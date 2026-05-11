@@ -1,35 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, ArrowUpRight } from 'lucide-react';
+import { JobPosition } from '../../types';
+import { mockJobs } from '../../data/jobs';
 
-const jobs = [
-  {
-    title: 'GIS Engineer',
-    type: 'Full Time',
-    description: 'Design, develop, and optimize geospatial solutions using open-source GIS platforms and spatial analytics tools.',
-    location: 'Bengaluru, India / Hybrid'
-  },
-  {
-    title: 'Cloud Engineer',
-    type: 'Full Time',
-    description: 'Design, develop, and optimize geospatial solutions using open-source GIS platforms and spatial analytics tools.',
-    location: 'Bengaluru, India / Hybrid'
-  },
-  {
-    title: 'Full Stack Developer',
-    type: 'Full Time',
-    description: 'Design, develop, and optimize geospatial solutions using open-source GIS platforms and spatial analytics tools.',
-    location: 'Bengaluru, India / Hybrid'
-  },
-  {
-    title: 'Business Analyst',
-    type: 'Full Time',
-    description: 'Design, develop, and optimize geospatial solutions using open-source GIS platforms and spatial analytics tools.',
-    location: 'Bengaluru, India / Hybrid'
-  }
-];
+interface JobCardProps {
+  job: JobPosition;
+  index: number;
+}
 
-const JobCard = ({ job, index }) => (
+const JobCard: React.FC<JobCardProps> = ({ job, index }) => (
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -56,7 +36,7 @@ const JobCard = ({ job, index }) => (
   </motion.div>
 );
 
-const CareersSection = () => {
+const CareersSection: React.FC = () => {
   return (
     <section className="py-24 bg-light-gray" id="careers">
       <div className="container mx-auto px-6 md:px-12">
@@ -73,7 +53,7 @@ const CareersSection = () => {
           
           {/* Jobs Grid */}
           <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {jobs.map((job, index) => (
+            {mockJobs.map((job, index) => (
               <JobCard key={index} job={job} index={index} />
             ))}
           </div>

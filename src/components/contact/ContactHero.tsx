@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const ContactHero = () => {
+const ContactHero: React.FC = () => {
   return (
     <section className="relative pt-32 pb-48 lg:pt-48 lg:pb-64 overflow-hidden bg-[#0A1149]">
       {/* Background Curves */}

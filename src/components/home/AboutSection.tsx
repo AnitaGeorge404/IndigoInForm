@@ -1,8 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Lightbulb, MonitorCheck, Target, TrendingUp } from 'lucide-react';
+import { Lightbulb, MonitorCheck, Target, TrendingUp, LucideIcon } from 'lucide-react';
 
-const Feature = ({ icon: Icon, label }) => (
+interface FeatureProps {
+  icon: LucideIcon;
+  label: string;
+}
+
+const Feature: React.FC<FeatureProps> = ({ icon: Icon, label }) => (
   <div className="flex flex-col items-center justify-center space-y-3 text-center w-24">
     <div className="text-primary-royal">
       <Icon className="w-10 h-10 stroke-[1.5]" />
@@ -13,7 +18,7 @@ const Feature = ({ icon: Icon, label }) => (
   </div>
 );
 
-const AboutSection = () => {
+const AboutSection: React.FC = () => {
   return (
     <section className="py-24 bg-white" id="about">
       <div className="container mx-auto px-6 md:px-12">

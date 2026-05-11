@@ -1,27 +1,16 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, Plus, Minus } from 'lucide-react';
+import { FAQItem } from '../../types';
+import { faqsData } from '../../data/faqs';
 
-const faqs = [
-  {
-    question: "Mobile Apps vs. Mobile Websites: Which Is Right for IoT Solutions?",
-    answer: "Professionally reintermediate technically sound supply chains it extensive Credibly pontificate turnkey inprocesses whereas marketplace compelling relationships rather parallel communities."
-  },
-  {
-    question: "How do you choose the indigo technology for my project?",
-    answer: "We carefully evaluate your project requirements, scalability needs, and budget to select the most appropriate technology stack from our extensive portfolio of enterprise solutions."
-  },
-  {
-    question: "Why is Indigo among the top iot companies in Kochi, Kerala?",
-    answer: "Our commitment to innovation, experienced engineering team, and track record of delivering successful enterprise solutions worldwide positions us as industry leaders."
-  },
-  {
-    question: "How are the resources assigned to a new lot project?",
-    answer: "Resources are allocated based on expertise required, project timeline, and current team availability, ensuring dedicated and skilled professionals for every phase."
-  }
-];
+interface FAQAccordionProps {
+  faq: FAQItem;
+  isOpen: boolean;
+  onClick: () => void;
+}
 
-const FAQAccordion = ({ faq, isOpen, onClick }) => {
+const FAQAccordion: React.FC<FAQAccordionProps> = ({ faq, isOpen, onClick }) => {
   return (
     <div className={`rounded-2xl transition-all duration-300 overflow-hidden ${isOpen ? 'bg-primary-royal shadow-lg' : 'bg-white'}`}>
       <button 
@@ -55,8 +44,8 @@ const FAQAccordion = ({ faq, isOpen, onClick }) => {
   );
 };
 
-const FAQSection = () => {
-  const [openIndex, setOpenIndex] = useState(0);
+const FAQSection: React.FC = () => {
+  const [openIndex, setOpenIndex] = useState<number>(0);
 
   return (
     <section className="py-24 bg-[#F4F5F8]">
@@ -74,7 +63,7 @@ const FAQSection = () => {
           </h2>
 
           <div className="space-y-4">
-            {faqs.map((faq, index) => (
+            {faqsData.map((faq, index) => (
               <FAQAccordion 
                 key={index} 
                 faq={faq} 

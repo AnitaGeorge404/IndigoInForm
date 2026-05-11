@@ -6,7 +6,7 @@ import AboutSection from '../components/AboutSection';
 import NewsletterBanner from '../components/NewsletterBanner';
 import Footer from '../components/Footer';
 
-const Home = () => {
+const Home: React.FC = () => {
   return (
     <div className="min-h-screen font-poppins selection:bg-primary-royal selection:text-white">
       <Navbar />

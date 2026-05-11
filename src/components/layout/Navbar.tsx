@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import { navLinks } from '../../data/navigation';
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -13,16 +14,6 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const navLinks = [
-    { name: 'HOME', href: '/', hasDropdown: false },
-    { name: 'THE PLATFORM', href: '#', hasDropdown: false },
-    { name: 'SOLUTIONS', href: '#', hasDropdown: true },
-    { name: 'SERVICES', href: '#', hasDropdown: false },
-    { name: 'RESOURCES', href: '#', hasDropdown: false },
-    { name: 'ABOUT US', href: '#', hasDropdown: true },
-    { name: 'CONTACT US', href: '/contact', hasDropdown: false },
-  ];
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-white shadow-md py-4' : 'bg-white py-6'}`}>

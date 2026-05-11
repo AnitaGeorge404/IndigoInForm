@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-const HeroSection = () => {
+const HeroSection: React.FC = () => {
   return (
     <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-primary-navy min-h-[90vh] flex items-center">
       {/* Abstract Background - simplified CSS approach */}

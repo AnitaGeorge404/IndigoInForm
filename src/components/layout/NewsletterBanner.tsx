@@ -1,7 +1,7 @@
 import React from 'react';
 import { Send } from 'lucide-react';
 
-const NewsletterBanner = () => {
+const NewsletterBanner: React.FC = () => {
   return (
     <div className="relative -mb-16 z-20 container mx-auto px-6 md:px-12">
       <div className="bg-gradient-to-r from-[#173cb2] to-[#2e68f5] rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 h-auto md:h-40 overflow-hidden relative">
