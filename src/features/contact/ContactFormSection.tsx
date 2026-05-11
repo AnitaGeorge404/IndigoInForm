@@ -47,8 +47,8 @@ const ContactFormSection: React.FC = () => {
             </div>
             
             <div className="relative">
-              <select className="w-full bg-[#FAFAFC] border border-gray-100 rounded-xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary-royal/30 focus:border-primary-royal outline-none text-[#A3A8B7] transition-all font-medium appearance-none cursor-pointer">
-                <option value="" disabled selected hidden>Select Service</option>
+              <select defaultValue="" className="w-full bg-[#FAFAFC] border border-gray-100 rounded-xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary-royal/30 focus:border-primary-royal outline-none text-[#A3A8B7] transition-all font-medium appearance-none cursor-pointer">
+                <option value="" disabled hidden>Select Service</option>
                 <option value="consulting">Consulting</option>
                 <option value="gis">GIS & Spatial Services</option>
                 <option value="cloud">Cloud Computing</option>
@@ -61,7 +61,7 @@ const ContactFormSection: React.FC = () => {
 
             <textarea 
               placeholder="Write Message" 
-              rows="5"
+              rows={5}
               className="w-full bg-[#FAFAFC] border border-gray-100 rounded-xl px-5 py-4 text-sm focus:ring-2 focus:ring-primary-royal/30 focus:border-primary-royal outline-none text-gray-800 resize-none transition-all font-medium placeholder-[#A3A8B7]"
             ></textarea>
 
