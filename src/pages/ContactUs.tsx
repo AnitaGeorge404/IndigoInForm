@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/layout/Navbar';
 import ContactHero from '../components/contact/ContactHero';
 import ContactFormSection from '../components/contact/ContactFormSection';
 import FAQSection from '../components/contact/FAQSection';
 import OfficeSection from '../components/contact/OfficeSection';
-import NewsletterBanner from '../components/NewsletterBanner';
-import Footer from '../components/Footer';
+import NewsletterBanner from '../components/layout/NewsletterBanner';
+import Footer from '../components/layout/Footer';
 
 const ContactUs: React.FC = () => {
   return (

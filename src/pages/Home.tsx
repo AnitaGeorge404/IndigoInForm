@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from '../components/Navbar';
-import HeroSection from '../components/HeroSection';
-import CareersSection from '../components/CareersSection';
-import AboutSection from '../components/AboutSection';
-import NewsletterBanner from '../components/NewsletterBanner';
-import Footer from '../components/Footer';
+import Navbar from '../components/layout/Navbar';
+import HeroSection from '../components/home/HeroSection';
+import CareersSection from '../components/home/CareersSection';
+import AboutSection from '../components/home/AboutSection';
+import NewsletterBanner from '../components/layout/NewsletterBanner';
+import Footer from '../components/layout/Footer';
 
 const Home: React.FC = () => {
   return (
