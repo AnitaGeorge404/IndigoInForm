@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
@@ -14,13 +15,13 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'HOME', href: '#', hasDropdown: false },
+    { name: 'HOME', href: '/', hasDropdown: false },
     { name: 'THE PLATFORM', href: '#', hasDropdown: false },
     { name: 'SOLUTIONS', href: '#', hasDropdown: true },
     { name: 'SERVICES', href: '#', hasDropdown: false },
     { name: 'RESOURCES', href: '#', hasDropdown: false },
     { name: 'ABOUT US', href: '#', hasDropdown: true },
-    { name: 'CONTACT US', href: '#', hasDropdown: false },
+    { name: 'CONTACT US', href: '/contact', hasDropdown: false },
   ];
 
   return (
@@ -37,10 +38,10 @@ const Navbar = () => {
         {/* Desktop Nav */}
         <div className="hidden lg:flex items-center space-x-8">
           {navLinks.map((link, index) => (
-            <a key={index} href={link.href} className="text-gray-800 font-semibold text-sm hover:text-primary-royal transition-colors flex items-center space-x-1">
+            <Link key={index} to={link.href} className="text-gray-800 font-semibold text-sm hover:text-primary-royal transition-colors flex items-center space-x-1">
               <span>{link.name}</span>
               {link.hasDropdown && <ChevronDown className="w-4 h-4" />}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -64,10 +65,10 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-lg border-t border-gray-100 p-6 flex flex-col space-y-4">
            {navLinks.map((link, index) => (
-            <a key={index} href={link.href} className="text-gray-800 font-medium text-base flex justify-between items-center pb-2 border-b border-gray-50">
+            <Link key={index} to={link.href} className="text-gray-800 font-medium text-base flex justify-between items-center pb-2 border-b border-gray-50" onClick={() => setIsMobileMenuOpen(false)}>
               <span>{link.name}</span>
               {link.hasDropdown && <ChevronDown className="w-4 h-4" />}
-            </a>
+            </Link>
           ))}
           <button className="bg-primary-royal hover:bg-blue-600 text-white font-medium rounded-lg px-6 py-3 w-full mt-4">
             Let's Talk

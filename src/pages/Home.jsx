@@ -1,0 +1,22 @@
+import React from 'react';
+import Navbar from '../components/Navbar';
+import HeroSection from '../components/HeroSection';
+import CareersSection from '../components/CareersSection';
+import AboutSection from '../components/AboutSection';
+import NewsletterBanner from '../components/NewsletterBanner';
+import Footer from '../components/Footer';
+
+const Home = () => {
+  return (
+    <div className="min-h-screen font-poppins selection:bg-primary-royal selection:text-white">
+      <Navbar />
+      <HeroSection />
+      <CareersSection />
+      <AboutSection />
+      <NewsletterBanner />
+      <Footer />
+    </div>
+  );
+};
+
+export default Home;
