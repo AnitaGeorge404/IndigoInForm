@@ -24,8 +24,10 @@ export interface FAQItem {
 
 export interface OfficeLocation {
   id: string;
-  title: string;
+  name: string;
+  country: string;
   address: string;
+  coordinates: [number, number];
 }
 
 export interface FooterLink {
