@@ -19,7 +19,7 @@ const TwitterIcon = () => (
   </svg>
 );
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="bg-[#0b134d] pt-32 pb-8 text-white relative z-10 w-full overflow-hidden">
       <div className="container mx-auto px-6 md:px-12">
