@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Send } from 'lucide-react';
+import { subscribeNewsletter } from '../../services/newsletterService';
 
 const NewsletterBanner: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    try {
+      await subscribeNewsletter(email);
+      setStatus('success');
+      setEmail('');
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
+
   return (
     <div className="relative -mb-16 z-20 container mx-auto px-6 md:px-12">
       <div className="bg-gradient-to-r from-[#173cb2] to-[#2e68f5] rounded-[2rem] p-8 md:p-12 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 h-auto md:h-40 overflow-hidden relative">
@@ -31,16 +48,34 @@ const NewsletterBanner: React.FC = () => {
 
         {/* Right Input */}
         <div className="w-full lg:w-1/3 relative z-10">
-          <div className="relative flex items-center">
-            <input 
-              type="email" 
-              placeholder="Email Address" 
-              className="w-full bg-white rounded-full py-4 pl-6 pr-16 text-gray-800 placeholder-gray-400 font-medium focus:outline-none focus:ring-2 focus:ring-white shadow-inner"
-            />
-            <button className="absolute right-2 bg-primary-royal hover:bg-blue-600 text-white rounded-full p-2.5 transition-colors shadow-sm">
-              <Send className="w-5 h-5 ml-0.5" />
-            </button>
-          </div>
+          {status === 'success' ? (
+            <div className="bg-white/20 text-white p-4 rounded-xl backdrop-blur-sm border border-white/30 text-center font-medium">
+              Thanks for subscribing! 🎉
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="relative flex flex-col items-center">
+              <div className="relative w-full flex items-center">
+                <input 
+                  type="email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Email Address" 
+                  className="w-full bg-white rounded-full py-4 pl-6 pr-16 text-gray-800 placeholder-gray-400 font-medium focus:outline-none focus:ring-2 focus:ring-white shadow-inner"
+                />
+                <button 
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="absolute right-2 bg-primary-royal hover:bg-blue-600 disabled:bg-blue-400 text-white rounded-full p-2.5 transition-colors shadow-sm"
+                >
+                  <Send className="w-5 h-5 ml-0.5" />
+                </button>
+              </div>
+              {status === 'error' && (
+                <p className="text-white/90 text-xs mt-2 absolute -bottom-6">Failed to subscribe. Try again.</p>
+              )}
+            </form>
+          )}
         </div>
 
       </div>

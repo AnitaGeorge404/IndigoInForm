@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MapPin, ArrowUpRight } from 'lucide-react';
+import { MapPin, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { JobPosition } from '../../types';
-import { mockJobs } from '../../data/jobs';
+import { getJobs } from '../../services/jobsService';
+import { submitApplication } from '../../services/applicationsService';
 
 interface JobCardProps {
   job: JobPosition;
@@ -37,6 +38,50 @@ const JobCard: React.FC<JobCardProps> = ({ job, index }) => (
 );
 
 const CareersSection: React.FC = () => {
+  const [jobs, setJobs] = useState<JobPosition[]>([]);
+  const [loadingJobs, setLoadingJobs] = useState(true);
+
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    position: '',
+    message: ''
+  });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const data = await getJobs();
+        setJobs(data);
+      } catch (error) {
+        console.error('Failed to fetch jobs', error);
+        // Fallback to empty array if backend is down
+        setJobs([]);
+      } finally {
+        setLoadingJobs(false);
+      }
+    };
+    fetchJobs();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    try {
+      await submitApplication(formData);
+      setStatus('success');
+      setFormData({ name: '', email: '', position: '', message: '' });
+    } catch (error) {
+      console.error(error);
+      setStatus('error');
+    }
+  };
+
   return (
     <section className="py-24 bg-light-gray" id="careers">
       <div className="container mx-auto px-6 md:px-12">
@@ -52,10 +97,18 @@ const CareersSection: React.FC = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Jobs Grid */}
-          <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {mockJobs.map((job, index) => (
-              <JobCard key={index} job={job} index={index} />
-            ))}
+          <div className="lg:w-2/3">
+            {loadingJobs ? (
+              <p className="text-center text-gray-500">Loading open positions...</p>
+            ) : jobs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {jobs.map((job, index) => (
+                  <JobCard key={job._id || index} job={job} index={index} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">No open positions at the moment. Please check back later.</p>
+            )}
           </div>
 
           {/* Contact Form */}
@@ -66,32 +119,76 @@ const CareersSection: React.FC = () => {
             className="lg:w-1/3"
           >
             <div className="bg-white rounded-3xl p-8 pb-10 shadow-[0_4px_20px_rgba(0,0,0,0.03)] border border-gray-100 h-full">
-              <button className="w-full bg-[#1e2336] text-white font-semibold rounded-2xl py-4 text-lg mb-8 transition-colors hover:bg-gray-800">
+              <button 
+                type="button"
+                className="w-full bg-[#1e2336] text-white font-semibold rounded-2xl py-4 text-lg mb-8 transition-colors hover:bg-gray-800"
+              >
                 Join our team
               </button>
               
-              <form className="space-y-4">
-                <input 
-                  type="text" 
-                  placeholder="Your Name*" 
-                  className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
-                />
-                <input 
-                  type="email" 
-                  placeholder="Your Email*" 
-                  className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
-                />
-                <input 
-                  type="text" 
-                  placeholder="Your Position*" 
-                  className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
-                />
-                <textarea 
-                  placeholder="Enter your message" 
-                  rows="4"
-                  className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 resize-none transition-shadow"
-                ></textarea>
-              </form>
+              {status === 'success' ? (
+                <div className="bg-green-50 text-green-800 p-6 rounded-xl border border-green-200">
+                  <h3 className="font-bold text-lg mb-2 flex items-center"><CheckCircle2 className="w-5 h-5 mr-2"/> Application Sent!</h3>
+                  <p className="text-sm">Thank you for your interest. We will review your application and get back to you.</p>
+                  <button 
+                    onClick={() => setStatus('idle')}
+                    className="mt-4 text-sm font-semibold text-green-700 underline"
+                  >
+                    Submit another application
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input 
+                    type="text" 
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Your Name*" 
+                    className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
+                  />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Your Email*" 
+                    className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
+                  />
+                  <input 
+                    type="text" 
+                    name="position"
+                    value={formData.position}
+                    onChange={handleChange}
+                    required
+                    placeholder="Your Position*" 
+                    className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 transition-shadow"
+                  />
+                  <textarea 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter your message" 
+                    rows={4}
+                    className="w-full bg-[#f4f4f5] border-none rounded-xl px-4 py-4 text-sm focus:ring-2 focus:ring-primary-royal outline-none text-gray-800 resize-none transition-shadow"
+                  ></textarea>
+                  
+                  {status === 'error' && (
+                    <p className="text-red-500 text-sm font-medium mt-2">Failed to submit application. Try again.</p>
+                  )}
+                  
+                  <button 
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className="w-full bg-primary-royal hover:bg-blue-600 disabled:bg-blue-400 text-white font-semibold rounded-xl py-4 transition-all duration-300 mt-4"
+                  >
+                    {status === 'loading' ? 'Submitting...' : 'Submit Application'}
+                  </button>
+                </form>
+              )}
             </div>
           </motion.div>
         </div>
